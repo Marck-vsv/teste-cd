@@ -1,0 +1,53 @@
+/*
+ * Base provisória. Os tokens definitivos de cor, tipografia e espaçamento
+ * serão definidos na etapa de design visual (§7 do material de apoio).
+ */
+:root {
+  --cor-fundo: #ffffff;
+  --cor-texto: #1f1f1f;
+  --fonte-base: var(--font-geist-sans), system-ui, sans-serif;
+  --tamanho-texto: 1rem; /* 16 px, mínimo do §7 */
+  --altura-linha: 1.5;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-padding-top: 5rem; /* §3: header fixo não cobre âncora nem foco */
+}
+
+body {
+  margin: 0;
+  color: var(--cor-texto);
+  background: var(--cor-fundo);
+  font-family: var(--fonte-base);
+  font-size: var(--tamanho-texto);
+  line-height: var(--altura-linha);
+}
+
+/* §2: links parecem clicáveis */
+a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* §8: foco sempre visível, ≥ 2 px */
+:focus-visible {
+  outline: 3px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
