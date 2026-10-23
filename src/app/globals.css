@@ -1,13 +1,37 @@
 /*
- * Base provisória. Os tokens definitivos de cor, tipografia e espaçamento
- * serão definidos na etapa de design visual (§7 do material de apoio).
+ * Tokens provisórios. A identidade visual definitiva (cores, fontes, imagens)
+ * fica para a etapa de design visual (§2, §6 e §7 do material de apoio).
+ * Contrastes atuais: texto #2b211b sobre #fffaf3 ≈ 15:1; branco sobre #9c3119 ≈ 6,9:1.
  */
 :root {
-  --cor-fundo: #ffffff;
-  --cor-texto: #1f1f1f;
+  --cor-fundo: #fffaf3;
+  --cor-fundo-destaque: #f6ecdf;
+  --cor-superficie: #ffffff;
+  --cor-texto: #2b211b;
+  --cor-texto-suave: #5a4a40;
+  --cor-primaria: #9c3119;
+  --cor-primaria-escura: #7a2512;
+  --cor-sobre-primaria: #ffffff;
+  --cor-borda: #8c7a6e;
+  --cor-foco: #1b3a8a;
+
   --fonte-base: var(--font-geist-sans), system-ui, sans-serif;
   --tamanho-texto: 1rem; /* 16 px, mínimo do §7 */
+  --tamanho-h1: clamp(1.75rem, 1.2rem + 2.5vw, 2.75rem);
+  --tamanho-h2: clamp(1.5rem, 1.2rem + 1.2vw, 2rem);
+  --tamanho-h3: 1.25rem;
   --altura-linha: 1.5;
+
+  --espaco-1: 0.25rem;
+  --espaco-2: 0.5rem;
+  --espaco-3: 1rem;
+  --espaco-4: 1.5rem;
+  --espaco-5: 2.5rem;
+  --espaco-6: 4rem;
+
+  --raio: 0.5rem;
+  --largura-max: 72rem;
+  --alvo-toque: 2.75rem; /* 44 px, §2 */
 }
 
 *,
@@ -17,7 +41,13 @@
 }
 
 html {
-  scroll-padding-top: 5rem; /* §3: header fixo não cobre âncora nem foco */
+  scroll-padding-top: 7rem; /* §3: header fixo não cobre âncora nem foco */
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -29,16 +59,430 @@ body {
   line-height: var(--altura-linha);
 }
 
-/* §2: links parecem clicáveis */
-a {
-  color: inherit;
-  text-decoration: underline;
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.2;
+  margin: 0 0 var(--espaco-3);
 }
 
-/* §8: foco sempre visível, ≥ 2 px */
+h1 {
+  font-size: var(--tamanho-h1);
+}
+
+h2 {
+  font-size: var(--tamanho-h2);
+}
+
+h3 {
+  font-size: var(--tamanho-h3);
+}
+
+h4 {
+  font-size: 1.125rem;
+  margin-top: var(--espaco-4);
+}
+
+p {
+  margin: 0 0 var(--espaco-3);
+}
+
+/* §2: links parecem clicáveis */
+a {
+  color: var(--cor-primaria-escura);
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+a:hover {
+  text-decoration-thickness: 0.15em;
+}
+
+/* §8: foco sempre visível, ≥ 2 px, contraste ≥ 3:1 */
 :focus-visible {
-  outline: 3px solid currentColor;
-  outline-offset: 2px;
+  outline: 3px solid var(--cor-foco);
+  outline-offset: 3px;
+}
+
+main:focus {
+  outline: none;
+}
+
+.conteiner {
+  width: 100%;
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding-inline: var(--espaco-3);
+}
+
+/* ---------- Pular para o conteúdo (§3) ---------- */
+.pular-link {
+  position: absolute;
+  left: var(--espaco-3);
+  top: -100%;
+  z-index: 10;
+  padding: var(--espaco-2) var(--espaco-3);
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-texto);
+}
+
+.pular-link:focus {
+  top: var(--espaco-2);
+}
+
+/* ---------- Cabeçalho e menu ---------- */
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  background: var(--cor-fundo);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+/* Com pouca altura (paisagem ou zoom), o header fixo ocuparia a tela. */
+@media (max-height: 30rem) {
+  .cabecalho {
+    position: relative;
+  }
+
+  html {
+    scroll-padding-top: 0;
+  }
+}
+
+.cabecalho__interno {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-2) var(--espaco-3);
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding: var(--espaco-2) var(--espaco-3);
+}
+
+.logo {
+  font-weight: 700;
+  font-size: 1.25rem;
+  color: var(--cor-texto);
+  text-decoration: none;
+  min-height: var(--alvo-toque);
+  display: inline-flex;
+  align-items: center;
+}
+
+.menu {
+  margin-left: auto;
+}
+
+.menu__botao {
+  min-height: var(--alvo-toque);
+  padding: var(--espaco-2) var(--espaco-3);
+  font: inherit;
+  color: var(--cor-texto);
+  background: var(--cor-superficie);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio);
+  cursor: pointer;
+}
+
+.menu__lista {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  list-style: none;
+  margin: 0;
+  padding: var(--espaco-2) var(--espaco-3) var(--espaco-3);
+  background: var(--cor-fundo);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+.menu__lista[data-aberto="false"] {
+  display: none;
+}
+
+.menu__lista a {
+  display: flex;
+  align-items: center;
+  min-height: var(--alvo-toque);
+  padding-inline: var(--espaco-2);
+  color: var(--cor-texto);
+}
+
+.menu__lista a[aria-current] {
+  font-weight: 700;
+  text-decoration-thickness: 0.2em;
+}
+
+@media (min-width: 64rem) {
+  .menu__botao {
+    display: none;
+  }
+
+  .menu__lista,
+  .menu__lista[data-aberto="false"] {
+    position: static;
+    display: flex;
+    gap: var(--espaco-1);
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  .menu__lista a {
+    text-decoration: none;
+  }
+
+  .menu__lista a:hover,
+  .menu__lista a[aria-current] {
+    text-decoration: underline;
+  }
+}
+
+/* ---------- Botões (links com aparência de botão) ---------- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--alvo-toque);
+  padding: var(--espaco-2) var(--espaco-4);
+  border: 2px solid transparent;
+  border-radius: var(--raio);
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.botao--primario {
+  color: var(--cor-sobre-primaria);
+  background: var(--cor-primaria);
+}
+
+.botao--primario:hover {
+  background: var(--cor-primaria-escura);
+}
+
+.botao--primario:active {
+  transform: translateY(1px);
+}
+
+.botao--grande {
+  font-size: 1.125rem;
+  padding: var(--espaco-3) var(--espaco-5);
+}
+
+.cabecalho__cta {
+  padding-inline: var(--espaco-3);
+}
+
+.menu__lista .menu__cta {
+  display: none;
+}
+
+@media (max-width: 29.99rem) {
+  .cabecalho__cta {
+    display: none;
+  }
+
+  .menu__lista .menu__cta {
+    display: block;
+    margin-top: var(--espaco-2);
+  }
+
+  .menu__lista .menu__cta a {
+    color: var(--cor-sobre-primaria);
+    text-decoration: none;
+  }
+}
+
+/* ---------- Seções ---------- */
+.hero {
+  padding-block: var(--espaco-5) var(--espaco-6);
+}
+
+.hero__marca {
+  font-weight: 700;
+  color: var(--cor-texto-suave);
+}
+
+.hero__texto {
+  font-size: 1.125rem;
+  max-width: 40rem;
+}
+
+.hero__fatos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-2) var(--espaco-4);
+  padding-left: 1.25rem;
+  margin: 0 0 var(--espaco-4);
+}
+
+.hero__nota {
+  margin-top: var(--espaco-3);
+  color: var(--cor-texto-suave);
+}
+
+.acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-3) var(--espaco-4);
+  margin-top: var(--espaco-4);
+}
+
+.link-secundario {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--alvo-toque);
+  font-weight: 700;
+}
+
+.secao {
+  padding-block: var(--espaco-6);
+}
+
+.secao--destaque {
+  background: var(--cor-fundo-destaque);
+}
+
+.cartao {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  padding: var(--espaco-4);
+}
+
+.perfis,
+.cursos {
+  display: grid;
+  gap: var(--espaco-4);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@media (min-width: 48rem) {
+  .perfis,
+  .cursos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+.instrutora__nome {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.garantias,
+.regras,
+.passos {
+  padding-left: 1.5rem;
+  margin: 0;
+}
+
+.garantias li,
+.regras li,
+.passos li {
+  margin-bottom: var(--espaco-2);
+}
+
+/* ---------- Atributos dos cursos ---------- */
+.atributos {
+  margin: 0;
+}
+
+.atributos dt {
+  font-weight: 700;
+  margin-top: var(--espaco-3);
+}
+
+.atributos dd {
+  margin: 0;
+}
+
+.atributos--compacto dt {
+  margin-top: var(--espaco-2);
+}
+
+.modulos {
+  margin: 0;
+  padding-left: 1.5rem;
+}
+
+.turmas {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--espaco-3);
+}
+
+.turma {
+  border-left: 4px solid var(--cor-primaria);
+  padding-left: var(--espaco-3);
+}
+
+.turma__nome {
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ---------- Dúvidas ---------- */
+.duvidas details {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--raio);
+  margin-bottom: var(--espaco-2);
+}
+
+.duvidas summary,
+.privacidade summary {
+  min-height: var(--alvo-toque);
+  padding: var(--espaco-2) var(--espaco-3);
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.duvidas details p {
+  padding: 0 var(--espaco-3) var(--espaco-3);
+  margin: 0;
+}
+
+.aviso {
+  margin-top: var(--espaco-4);
+  padding: var(--espaco-3);
+  border: 2px dashed var(--cor-borda);
+  border-radius: var(--raio);
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  padding-block: var(--espaco-5);
+  border-top: 1px solid var(--cor-borda);
+}
+
+.contato {
+  padding-left: 1.25rem;
+}
+
+.contato address {
+  display: inline;
+  font-style: normal;
+}
+
+.privacidade {
+  margin-block: var(--espaco-3);
+}
+
+.privacidade p {
+  padding-inline: var(--espaco-3);
+}
+
+.rodape__nota {
+  color: var(--cor-texto-suave);
 }
 
 @media (prefers-reduced-motion: reduce) {

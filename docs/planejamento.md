@@ -1,6 +1,6 @@
 # Planejamento (seção 0 do material de apoio)
 
-> Rascunho inicial preparado com apoio do Claude a partir do briefing. As decisões finais são do dev/designer: revise, ajuste e marque o que confirmar.
+> Preparado com apoio do Claude a partir do briefing. Suposições revisadas e aprovadas por Marcos em 23/10/2026.
 
 ## Contexto de uso
 
@@ -36,19 +36,21 @@ O público são adultos e idosos (incluindo pessoas 50+) que querem aprender a c
 - A próxima data de início de cada turma é calculada na página a partir da data atual e mostrada nos cards e no resumo antes do envio (ex.: em 23/10/2026: Manhã 02/11/2026, Noite 03/11/2026, Sábado e Kids 06/02/2027).
 - A data-limite de reembolso (7 dias antes do início) aparece junto com a data de início.
 - Consentimento LGPD separado para dados de saúde (alergias) e, quando houver, dados da criança, dado pelo responsável e nunca pré-marcado.
-- Página "Política de privacidade" resumida na própria página (seção ou bloco expansível), por ser sinal de credibilidade (§10) e exigência de consentimento informado (§5).
+- Política de privacidade resumida no rodapé (bloco expansível), por ser sinal de credibilidade (§10) e exigência de consentimento informado (§5).
 
-## Suposições (a confirmar)
+## Suposições (confirmadas por Marcos em 23/10/2026)
 
-- Depois da pré-inscrição, a escola entra em contato pelo WhatsApp ou e-mail informado em até 2 dias úteis para confirmar a vaga e combinar o pagamento. **O briefing não define prazo nem canal.**
+- Depois da pré-inscrição, a escola entra em contato pelo WhatsApp ou e-mail informado em até 2 dias úteis para confirmar a vaga e combinar o pagamento. O briefing não define prazo nem canal.
 - O pagamento acontece só depois da confirmação da vaga; a pré-inscrição não cobra nada.
 - O link do WhatsApp usa o número fictício do briefing e é marcado como exemplo.
 - Não há dados de depoimentos, notas ou número de alunos, então a página não terá prova social (§10).
-- Como não há back-end, o envio é simulado no navegador: nenhum dado sai da página.
+- Como não há back-end, o envio é simulado no navegador: nenhum dado sai da página. A regra de falha de rede (§5) fica registrada como não aplicável.
+- Essencial com 13 a 17 anos: o formulário pede os dados do responsável. Menos de 13 anos no Essencial: inscrição bloqueada, com sugestão do Kids (se tiver de 6 a 12 anos).
+- Formulário dividido em 3 etapas (ver abaixo).
 
 ## Ordem das seções proposta (§1)
 
-1. Header com logo, menu (Cursos, Como funciona, Instrutora, Dúvidas, Contato) e CTA "Fazer pré-inscrição".
+1. Header com logo, menu (Para quem é, Instrutora, Como funciona, Cursos e turmas, Dúvidas, Contato) e CTA "Fazer pré-inscrição".
 2. Hero: o que é, para quem e o próximo passo.
 3. Para quem é: dois perfis (quero aprender do zero / quero cozinhar com meu filho), cada um levando ao curso certo.
 4. Instrutora e credibilidade: Chef Helena Duarte, certificado, reembolso, ingredientes inclusos.
