@@ -1,26 +1,564 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Tokens de cor e tipografia (§7: centralizados). */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-oliva: #26331f;
+  --color-oliva-medio: #3c4f2e;
+  --color-creme: #f6f1e3;
+  --color-areia: #e8dfc4;
+  --color-mostarda: #f0b73c;
+  --color-mostarda-claro: #ffd066;
+  --color-tinta: #1d1a12;
+  --color-tomate: #9b2f17;
+  --color-tomate-escuro: #6e1f0e;
+  --color-mudo: #4d4a3a;
+  --color-erro: #8f1d0c;
+  --font-sans: var(--fonte-corpo), system-ui, sans-serif;
+  --font-titulo: var(--fonte-titulo), Georgia, serif;
 }
 
-@media (prefers-color-scheme: dark) {
+@layer base {
+  /* Superfícies do navegador na paleta (seleção, cursor, controles, rolagem). */
+  ::selection {
+    background: var(--color-mostarda);
+    color: var(--color-tinta);
+  }
+
+  input,
+  textarea,
+  select {
+    caret-color: var(--color-tomate);
+    font-family: inherit;
+  }
+
+  html {
+    scrollbar-color: var(--color-oliva-medio) var(--color-areia);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    text-wrap: balance;
+  }
+
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 16px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+    --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+    /* Permite animar a altura de <details> de 0 até auto. */
+    interpolate-size: allow-keywords;
+  }
+
+  body {
+    background: var(--color-creme);
+    color: var(--color-tinta);
+    font-family: var(--font-sans);
+    font-size: 1.125rem;
+    line-height: 1.5;
+  }
+
+  a {
+    color: var(--color-tomate);
+    text-underline-offset: 3px;
+  }
+
+  a:hover {
+    color: var(--color-tomate-escuro);
+  }
+
+  /* Foco visível em qualquer fundo: anel escuro com halo mostarda (§8). */
+  :focus-visible {
+    outline: 3px solid var(--color-tinta);
+    outline-offset: 0;
+    box-shadow: 0 0 0 6px var(--color-mostarda);
+    border-radius: 6px;
+  }
+
+  .escuro :focus-visible {
+    outline-color: var(--color-creme);
+    box-shadow: 0 0 0 6px var(--color-tinta);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .fonte-titulo {
+    font-family: var(--font-titulo);
+    font-weight: 400;
+  }
+
+  /* Botões */
+  .btn {
+    display: inline-flex;
+    min-height: 48px;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border: 2px solid var(--color-tinta);
+    border-radius: 10px;
+    padding: 0 1.5rem;
+    font-size: 1.125rem;
+    font-weight: 700;
+    text-decoration: none;
+    cursor: pointer;
+    color: var(--color-tinta);
+    transition: background-color 0.15s;
+  }
+
+  .btn-grande {
+    min-height: 56px;
+    padding: 0 2rem;
+    font-size: 1.25rem;
+  }
+
+  .btn-primario {
+    background: var(--color-mostarda);
+  }
+
+  .btn-primario:hover:not(:disabled) {
+    background: var(--color-mostarda-claro);
+    color: var(--color-tinta);
+  }
+
+  .btn-secundario {
+    background: transparent;
+  }
+
+  .btn-secundario:hover:not(:disabled) {
+    background: var(--color-areia);
+    color: var(--color-tinta);
+  }
+
+  .escuro .btn-secundario {
+    border-color: var(--color-creme);
+    color: var(--color-creme);
+  }
+
+  .escuro .btn-secundario:hover:not(:disabled) {
+    background: var(--color-creme);
+    color: var(--color-oliva);
+  }
+
+  .btn:disabled {
+    cursor: progress;
+    opacity: 0.75;
+  }
+
+  /* Tabela comparativa: empilha no celular em vez de rolar para o lado (§9). */
+  table.comparativo {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  table.comparativo th,
+  table.comparativo td {
+    padding: 1rem 1.25rem;
+    vertical-align: top;
+  }
+
+  table.comparativo tbody th {
+    width: 8.5rem;
+    white-space: nowrap;
+  }
+
+  table.comparativo tbody tr {
+    border-top: 2px solid var(--color-tinta);
+  }
+
+  @media (max-width: 719px) {
+    table.comparativo,
+    table.comparativo tbody,
+    table.comparativo tr,
+    table.comparativo th,
+    table.comparativo td {
+      display: block;
+    }
+
+    table.comparativo thead {
+      position: absolute;
+      left: -9999px;
+    }
+
+    table.comparativo tbody tr {
+      padding: 0.75rem 0;
+    }
+
+    table.comparativo tbody th {
+      width: auto;
+      white-space: normal;
+      padding-bottom: 0.25rem;
+    }
+
+    table.comparativo td {
+      padding-block: 0.375rem;
+    }
+
+    table.comparativo td::before {
+      content: attr(data-rotulo);
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--color-tomate);
+    }
+  }
+
+  details > summary {
+    display: flex;
+    min-height: 44px;
+    cursor: pointer;
+    align-items: center;
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+
+  /* Estrutura comum às seções */
+  .conteudo {
+    font-variant-numeric: tabular-nums;
+    max-width: 1184px;
+    margin-inline: auto;
+    padding-inline: clamp(1rem, 5vw, 3rem);
+  }
+
+  .secao {
+    padding-block: clamp(3rem, 8vw, 5.5rem);
+  }
+
+  .titulo-secao {
+    margin: 0 0 1rem;
+    font-family: var(--font-titulo);
+    font-size: clamp(1.9rem, 5vw, 2.6rem);
+    font-weight: 400;
+    line-height: 1.1;
+  }
+
+  .lide {
+    margin: 0 0 2rem;
+    max-width: 38em;
+    font-size: clamp(1.125rem, 2.4vw, 1.3rem);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+}
+
+/* Movimento (§6): feedback, continuidade e um momento autoral na entrada.
+   Estado padrão sempre visível; o movimento espacial só roda sem preferência
+   por menos movimento, e com ela ficam apenas fades curtos que informam. */
+@layer components {
+  @keyframes subir {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes surgir {
+    from {
+      opacity: 0;
+      transform: scale(0.88);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes tracar {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Cores e bordas respondem rápido; hover só em ponteiro fino. */
+  .btn {
+    transition:
+      background-color 150ms ease,
+      color 150ms ease,
+      transform 120ms var(--ease-out);
+  }
+
+  a,
+  label,
+  summary {
+    transition:
+      color 150ms ease,
+      background-color 150ms ease,
+      border-color 150ms ease,
+      box-shadow 200ms var(--ease-out);
+  }
+
+  .erro-entra {
+    animation: aparecer 180ms ease both;
+  }
+
+  .selo-visto {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+
+  .selo-circulo {
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+
+  /* Accordion: a altura anima onde o navegador permite; sem suporte, abre direto. */
+  details::details-content {
+    block-size: 0;
+    overflow: clip;
+    transition:
+      block-size 220ms var(--ease-out),
+      content-visibility 220ms allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .btn:active {
+      transform: translateY(1px) scale(0.98);
+    }
+
+    /* Entrada do hero: sequência curta, no máximo ~0,8 s. */
+    .entrada {
+      animation: subir 600ms var(--ease-out) both;
+      animation-delay: calc(var(--i, 0) * 70ms);
+    }
+
+    /* Troca de etapa do formulário. */
+    .etapa-entra {
+      animation: subir 280ms var(--ease-out) both;
+    }
+
+    .selo-circulo {
+      animation: surgir 360ms var(--ease-out) both;
+    }
+
+    .selo-visto {
+      stroke-dashoffset: 1;
+      animation: tracar 450ms var(--ease-out) 180ms forwards;
+    }
+
+    /* Menu do celular: abre a partir do botão, sai mais rápido. */
+    @media (max-width: 1099px) {
+      #menu-principal {
+        transform-origin: top;
+        transition:
+          opacity 180ms var(--ease-out),
+          transform 180ms var(--ease-out),
+          display 180ms allow-discrete;
+      }
+
+      #menu-principal.hidden {
+        opacity: 0;
+        transform: translateY(-8px) scale(0.98);
+        transition-duration: 120ms;
+      }
+
+      #menu-principal.block {
+        @starting-style {
+          opacity: 0;
+          transform: translateY(-8px) scale(0.98);
+        }
+      }
+    }
+
+    /* Revelar ao rolar só para grupos que são listas; sem suporte, tudo já aparece. */
+    @supports (animation-timeline: view()) {
+      .revela {
+        animation: subir linear both;
+        animation-timeline: view();
+        animation-range: entry calc(var(--i, 0) * 6%) entry
+          calc(45% + var(--i, 0) * 6%);
+      }
+
+      .revela-surge {
+        transform-box: fill-box;
+        transform-origin: center;
+        animation: surgir linear both;
+        animation-timeline: view();
+        animation-range: entry calc(var(--i, 0) * 8%) entry
+          calc(55% + var(--i, 0) * 8%);
+      }
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .entrada,
+    .etapa-entra {
+      animation: aparecer 200ms ease both;
+    }
+
+    details::details-content {
+      transition: none;
+    }
+  }
+}
+
+/* Mais vida: ilustrações que se mexem enquanto estão na tela, progresso de
+   leitura, marca-texto nos títulos e setas nos botões. Loops só rodam com
+   `data-ativo="true"` (ver AtivoNaTela) e nunca com preferência por menos movimento. */
+@layer components {
+  @keyframes piscar {
+    0%,
+    93%,
+    100% {
+      transform: scaleY(1);
+    }
+    96.5% {
+      transform: scaleY(0.08);
+    }
+  }
+
+  @keyframes inclinar {
+    0%,
+    86%,
+    100% {
+      transform: rotate(0);
+    }
+    91% {
+      transform: rotate(-4deg);
+    }
+    96% {
+      transform: rotate(2.5deg);
+    }
+  }
+
+  @keyframes flutuar {
+    from {
+      transform: translateY(0) rotate(var(--rot0, -3deg));
+    }
+    to {
+      transform: translateY(var(--amp, -10px)) rotate(var(--rot1, 3deg));
+    }
+  }
+
+  @keyframes crescer {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+
+  @keyframes assentar {
+    from {
+      transform: scale(0.97);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  /* Marca-texto sob cada título de seção. */
+  .titulo-secao::after {
+    content: "";
+    display: block;
+    width: 3.5rem;
+    height: 6px;
+    margin-top: 0.6rem;
+    border-radius: 3px;
+    background: var(--color-mostarda);
+    transform-origin: left;
+  }
+
+  .seta {
+    flex: none;
+    transition: transform 180ms var(--ease-out);
+  }
+
+  .progresso {
+    display: none;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    [data-ativo="true"] .anim-pisca {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: piscar 5.5s ease-in-out infinite;
+    }
+
+    [data-ativo="true"] .anim-chapeu {
+      transform-box: fill-box;
+      transform-origin: 50% 100%;
+      animation: inclinar 7s var(--ease-in-out) infinite;
+    }
+
+    [data-ativo="true"] .flutua {
+      transform-box: fill-box;
+      transform-origin: center;
+      animation: flutuar var(--dur, 7s) ease-in-out infinite alternate;
+    }
+
+    .opcao:has(input:checked) {
+      animation: assentar 220ms var(--ease-out);
+    }
+
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover .seta {
+        transform: translateX(4px);
+      }
+    }
+
+    @supports (animation-timeline: scroll()) {
+      /* Barra de progresso de leitura, presa ao topo. */
+      .progresso {
+        display: block;
+        position: fixed;
+        inset: 0 0 auto 0;
+        z-index: 50;
+        height: 4px;
+        background: var(--color-mostarda);
+        transform-origin: left;
+        animation: crescer linear both;
+        animation-timeline: scroll(root);
+        pointer-events: none;
+      }
+    }
+
+    @supports (animation-timeline: view()) {
+      .titulo-secao::after {
+        animation: crescer linear both;
+        animation-timeline: view();
+        animation-range: entry 15% entry 75%;
+      }
+    }
+  }
 }
