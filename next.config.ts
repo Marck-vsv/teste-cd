@@ -2,9 +2,10 @@ import type { NextConfig } from "next";
 
 // No GitHub Pages o site é exportado como HTML estático e servido em
 // https://<usuário>.github.io/<repositório>, por isso o basePath. O workflow
-// em .github/workflows/deploy-pages.yml define GITHUB_PAGES=true no build.
+// em .github/workflows/deploy-pages.yml define GITHUB_PAGES=true e passa o
+// nome atual do repositório em PAGES_BASE_PATH (sobrevive a renomeações).
 const githubPages = process.env.GITHUB_PAGES === "true";
-const basePath = githubPages ? "/Atelie-do-Sabor-teste-" : "";
+const basePath = githubPages ? (process.env.PAGES_BASE_PATH ?? "") : "";
 
 const nextConfig: NextConfig = {
   ...(githubPages && {
