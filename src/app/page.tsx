@@ -11,8 +11,8 @@ import { QuemEnsina } from "@/components/quem-ensina";
 import { Rodape } from "@/components/rodape";
 import { turmasDeHoje } from "@/lib/turmas-hoje";
 
-export default async function Home() {
-  const turmas = await turmasDeHoje();
+export default function Home() {
+  const turmas = turmasDeHoje();
 
   return (
     <>

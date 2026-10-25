@@ -97,27 +97,29 @@ export const FAQ = [
 
 // Imagens geradas por IA (Higgsfield, Z Image). São ilustrativas: não mostram
 // aulas reais, alunos nem a instrutora. Sem rostos e sem texto dentro da imagem.
+const BASE = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
+
 export const IMAGENS = {
   ingredientes: {
-    src: "/imagens/ingredientes.webp",
+    src: `${BASE}/imagens/ingredientes.webp`,
     alt: "Tábua de madeira com dois tomates, folhas de manjericão, um monte de farinha e uma colher de pau sobre um pano de linho.",
     width: 1200,
     height: 900,
   },
   massaMaos: {
-    src: "/imagens/massa-maos.webp",
+    src: `${BASE}/imagens/massa-maos.webp`,
     alt: "Mãos de uma pessoa sovando massa de pão sobre uma mesa de madeira coberta de farinha.",
     width: 1200,
     height: 900,
   },
   duplaMassa: {
-    src: "/imagens/dupla-massa.webp",
+    src: `${BASE}/imagens/dupla-massa.webp`,
     alt: "Mãos de uma criança e de um adulto, ambos de avental, misturando massa juntas em uma tigela grande.",
     width: 1200,
     height: 900,
   },
   paes: {
-    src: "/imagens/paes.webp",
+    src: `${BASE}/imagens/paes.webp`,
     alt: "Dois pães redondos dourados e uma tigela pequena de azeite sobre um pano de linho.",
     width: 1200,
     height: 900,
